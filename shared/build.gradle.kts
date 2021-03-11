@@ -46,16 +46,7 @@ android {
         targetSdkVersion(29)
     }
 }
-val packForXcode by tasks.creating(Sync::class) {
-    group = "build"
-    val mode = System.getenv("CONFIGURATION") ?: "DEBUG"
-    println(kotlin.targets.asMap)
-    val framework = kotlin.targets.getByName<KotlinNativeTarget>("ios").binaries.getFramework(mode)
-    inputs.property("mode", mode)
-    dependsOn(framework.linkTask)
-    val targetDir = File(buildDir, "xcode-frameworks")
-    from({ framework.outputDirectory })
-    into(targetDir)
-}
 
-tasks.getByName("build").dependsOn(packForXcode)
+apply(from = "xcode.gradle")
+
+tasks.getByName("build").dependsOn(tasks.findByName("packForXcode"))
