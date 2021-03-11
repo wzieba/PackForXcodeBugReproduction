@@ -1,0 +1,12 @@
+name: Build and test
+
+on:
+  push:
+
+jobs:
+
+  android:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: ./gradlew build
